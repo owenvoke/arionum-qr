@@ -22,6 +22,8 @@
                         <span v-if="paymentRequest">Create Wallet QR</span>
                     </button>
 
+                    <hr/>
+
                     <form v-if="!paymentRequest">
                         <div class="field">
                             <label for="walletAddress" class="label">Address</label>
@@ -61,9 +63,9 @@
                                    @change="createRequestQr"/>
                         </div>
                     </form>
-                </div>
 
-                <div class="column">
+                    <hr/>
+
                     <div class="box">
                         <div id="generated-qr"></div>
                     </div>

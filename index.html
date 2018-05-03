@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Arionum QR Code Generator</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
+</head>
+
+<body>
+<section id="app" class="section">
+    <div class="container is-fluid card">
+        <div class="card-content">
+            <h1 class="title">Arionum QR Codes</h1>
+
+            <div class="columns">
+                <div class="column">
+                    <form id="qr-generator">
+                        <div class="field">
+                            <label for="address" class="label">Address</label>
+                            <input class="input" id="address" v-model="wallet.address" @change="generateQr"/>
+                        </div>
+
+                        <div class="field">
+                            <label for="publicKey" class="label">Public key</label>
+                            <input class="input" id="publicKey" v-model="wallet.publicKey" @change="generateQr"/>
+                        </div>
+
+                        <div class="field">
+                            <label for="privateKey" class="label">Private key</label>
+                            <input class="input" id="privateKey" v-model="wallet.privateKey" @change="generateQr"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="column">
+                    <div class="box">
+                        <div id="generated-qr"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- External JS -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@latest/qrcode.min.js"></script>
+
+<!-- Custom JS -->
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            wallet: {
+                address: null,
+                publicKey: null,
+                privateKey: null,
+                generatedQr: null
+            }
+        },
+        mounted () {
+            this.generatedQr = new QRCode('generated-qr', {correctLevel: QRCode.CorrectLevel.H})
+        },
+        methods: {
+            generateQr () {
+                this.generatedQr.clear()
+                this.generatedQr.makeCode(`${this.wallet.address}:${this.wallet.publicKey}:${this.wallet.privateKey}`)
+            }
+        }
+    })
+</script>
+</body>
+</html>

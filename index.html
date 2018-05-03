@@ -17,20 +17,47 @@
 
             <div class="columns">
                 <div class="column">
-                    <form id="qr-generator">
+                    <button class="button is-info" @click="togglePaymentRequest">
+                        <span v-if="!paymentRequest">Create Request QR</span>
+                        <span v-if="paymentRequest">Create Wallet QR</span>
+                    </button>
+
+                    <form v-if="!paymentRequest">
                         <div class="field">
-                            <label for="address" class="label">Address</label>
-                            <input class="input" id="address" v-model="wallet.address" @change="generateQr"/>
+                            <label for="walletAddress" class="label">Address</label>
+                            <input class="input" id="walletAddress" v-model="wallet.address"
+                                   @change="createWalletQr"/>
                         </div>
 
                         <div class="field">
-                            <label for="publicKey" class="label">Public key</label>
-                            <input class="input" id="publicKey" v-model="wallet.publicKey" @change="generateQr"/>
+                            <label for="walletPublicKey" class="label">Public key</label>
+                            <input class="input" id="walletPublicKey" v-model="wallet.publicKey"
+                                   @change="createWalletQr"/>
                         </div>
 
                         <div class="field">
-                            <label for="privateKey" class="label">Private key</label>
-                            <input class="input" id="privateKey" v-model="wallet.privateKey" @change="generateQr"/>
+                            <label for="walletPrivateKey" class="label">Private key</label>
+                            <input class="input" id="walletPrivateKey" v-model="wallet.privateKey"
+                                   @change="createWalletQr"/>
+                        </div>
+                    </form>
+                    <form v-if="paymentRequest">
+                        <div class="field">
+                            <label for="requestAddress" class="label">Address</label>
+                            <input class="input" id="requestAddress" v-model="request.address"
+                                   @change="createRequestQr"/>
+                        </div>
+
+                        <div class="field">
+                            <label for="requestValue" class="label">Payment value</label>
+                            <input class="input" id="requestValue" v-model="request.value"
+                                   @change="createRequestQr"/>
+                        </div>
+
+                        <div class="field">
+                            <label for="requestMessage" class="label">Message</label>
+                            <input class="input" id="requestMessage" v-model="request.message"
+                                   @change="createRequestQr"/>
                         </div>
                     </form>
                 </div>
@@ -54,19 +81,32 @@
         el: '#app',
         data: {
             wallet: {
-                address: null,
-                publicKey: null,
-                privateKey: null
+                address: '',
+                publicKey: '',
+                privateKey: ''
             },
-            generatedQr: null
+            request: {
+                address: '',
+                value: 0,
+                message: ''
+            },
+            generatedQr: null,
+            paymentRequest: false
         },
         mounted () {
             this.generatedQr = new QRCode('generated-qr', {correctLevel: QRCode.CorrectLevel.H})
         },
         methods: {
-            generateQr () {
+            createWalletQr () {
                 this.generatedQr.clear()
                 this.generatedQr.makeCode(`${this.wallet.address}|${this.wallet.publicKey}|${this.wallet.privateKey}`)
+            },
+            createRequestQr () {
+                this.generatedQr.clear()
+                this.generatedQr.makeCode(`arosend|${this.request.address}|${this.request.value}|${this.request.message}`)
+            },
+            togglePaymentRequest () {
+                this.paymentRequest = !this.paymentRequest
             }
         }
     })

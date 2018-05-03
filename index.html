@@ -56,9 +56,9 @@
             wallet: {
                 address: null,
                 publicKey: null,
-                privateKey: null,
-                generatedQr: null
-            }
+                privateKey: null
+            },
+            generatedQr: null
         },
         mounted () {
             this.generatedQr = new QRCode('generated-qr', {correctLevel: QRCode.CorrectLevel.H})

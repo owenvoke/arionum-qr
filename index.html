@@ -41,6 +41,7 @@
                                    @change="createWalletQr"/>
                         </div>
                     </form>
+
                     <form v-if="paymentRequest">
                         <div class="field">
                             <label for="requestAddress" class="label">Address</label>
@@ -61,6 +62,7 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="column">
                     <div class="box">
                         <div id="generated-qr"></div>

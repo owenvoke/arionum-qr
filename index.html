@@ -53,7 +53,7 @@
 
                         <div class="field">
                             <label for="requestValue" class="label">Payment value</label>
-                            <input class="input" id="requestValue" v-model="request.value"
+                            <input class="input" id="requestValue" v-model="request.value" type="number"
                                    @change="createRequestQr"/>
                         </div>
 
@@ -91,7 +91,7 @@
             },
             request: {
                 address: '',
-                value: 0,
+                value: '',
                 message: ''
             },
             generatedQr: null,
